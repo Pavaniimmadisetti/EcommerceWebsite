@@ -1,0 +1,42 @@
+const products = [
+  { id: 1, name: "T-Shirt", price: 20, image: "https://via.placeholder.com/200" },
+  { id: 2, name: "Shoes", price: 50, image: "https://via.placeholder.com/200" },
+  { id: 3, name: "Watch", price: 70, image: "https://via.placeholder.com/200" },
+  { id: 4, name: "Bag", price: 40, image: "https://via.placeholder.com/200" }
+];
+
+const productList = document.getElementById("product-list");
+const cartItems = document.getElementById("cart-items");
+const totalEl = document.getElementById("total");
+let cart = [];
+
+// Render Products
+products.forEach(product => {
+  const div = document.createElement("div");
+  div.classList.add("product");
+  div.innerHTML = `
+    <img src="${product.image}" alt="${product.name}">
+    <h3>${product.name}</h3>
+    <p>$${product.price}</p>
+    <button onclick="addToCart(${product.id})">Add to Cart</button>
+  `;
+  productList.appendChild(div);
+});
+
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  cart.push(product);
+  renderCart();
+}
+
+function renderCart() {
+  cartItems.innerHTML = "";
+  let total = 0;
+  cart.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = `${item.name} - $${item.price}`;
+    cartItems.appendChild(li);
+    total += item.price;
+  });
+  totalEl.textContent = total;
+}
